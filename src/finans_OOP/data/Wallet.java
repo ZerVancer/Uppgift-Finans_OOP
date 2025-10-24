@@ -6,7 +6,6 @@ import finans_OOP.UserData;
 import java.time.temporal.TemporalField;
 import java.time.temporal.WeekFields;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 public class Wallet {
@@ -36,8 +35,8 @@ public class Wallet {
   }
 
   // Very convoluted
-  public List<PeriodicExpensesAndIncome> getIncomeOrExpenses(Period period, boolean positive) {
-    List<PeriodicExpensesAndIncome> result = new ArrayList<>();
+  public ArrayList<PeriodicExpensesAndIncome> getIncomeOrExpenses(Period period, boolean positive) {
+    ArrayList<PeriodicExpensesAndIncome> result = new ArrayList<>();
     if (transactions.isEmpty()) return result;
     PeriodicExpensesAndIncome pei;
     int time = getTransactionPeriod(transactions.getFirst(), period);

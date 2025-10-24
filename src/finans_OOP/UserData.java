@@ -16,7 +16,7 @@ public class UserData {
   }
 
   private static File getFilePath(String username) {
-    return new File("src\\main\\java\\com\\leo\\individuell_javafx\\users\\"+username+".txt");
+    return new File("src\\finans_OOP\\users\\"+username+".txt");
   }
 
   public static void initialiseUser(String username) throws IOException {
