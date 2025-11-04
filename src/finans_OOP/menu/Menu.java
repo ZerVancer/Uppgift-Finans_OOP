@@ -22,5 +22,6 @@ public abstract class Menu {
         return option;
       }
     }
+    return null;
   }
 }
