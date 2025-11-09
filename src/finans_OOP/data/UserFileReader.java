@@ -50,28 +50,24 @@ public class UserFileReader implements FileManagement {
   }
 
   @Override
-  public void createTransaction(User user, int result) {
-    Transaction transaction = new Transaction(result);
-    user.getWallet().addToBalance(result);
-    user.getWallet().addTransaction(transaction);
-    addTransaction(user, transaction);
+  public void addTransaction(User user) {
+    writeTransaction(user);
   }
 
   // Very inefficient with more transactions
-  @Override
-  public void addTransaction(User user, Transaction transaction) {
+  public void writeTransaction(User user) {
+    String username = user.getUsername();
+    Wallet wallet = user.getWallet();
     try {
-      BufferedWriter writer = new BufferedWriter(new FileWriter(getFilePath(user.getUsername()), false));
+      BufferedWriter writer = new BufferedWriter(new FileWriter(getFilePath(username), false));
 
-      writer.write(user.getUsername());
-      int result = user.getWallet().getBalance()+transaction.getAmount();
+      writer.write(username);
+      int result = wallet.getBalance();
       writer.write("\n"+result);
-      for (Transaction t : user.getWallet().getTransactions()) {
+      for (Transaction t : wallet.getTransactions()) {
         writer.write("\n"+t.getTimeStamp().toString()+" "+t.getAmount());
       }
-
       writer.close();
-      user.getWallet().addTransaction(transaction);
     } catch (IOException e) {
       System.out.println("Missing file");
     }

@@ -19,7 +19,10 @@ public class User {
   }
 
   public void addTransaction(int amount, int signifier) {
-    ufr.createTransaction(this, amount*signifier);
+    int result = amount*signifier;
+    wallet.addToBalance(result);
+    wallet.addTransaction(new Transaction(result));
+    ufr.addTransaction(this);
   }
 
   public Wallet getWallet() {

@@ -6,7 +6,6 @@ public interface FileManagement {
 
   User getUser(String username) throws IOException;
   User readFile(String username);
-  void addTransaction(User user, Transaction transaction);
-  void createTransaction(User user, int amount);
+  void addTransaction(User user);
 
 }

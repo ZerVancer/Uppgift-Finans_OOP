@@ -1,6 +1,7 @@
 package finans_OOP;
 
 import finans_OOP.data.Input;
+import finans_OOP.data.Transaction;
 import finans_OOP.data.User;
 import finans_OOP.menus.LoginMenu;
 import finans_OOP.menus.Menu;
