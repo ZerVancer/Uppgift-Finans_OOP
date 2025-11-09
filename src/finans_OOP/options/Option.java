@@ -1,17 +1,27 @@
 package finans_OOP.options;
 
+import finans_OOP.Application;
+
 import java.io.IOException;
 
 public abstract class Option {
-  private String name;
+  private final String name;
+  protected Application application;
+  protected int numberOfCommands;
 
-  public Option(String name) {
+  protected Option(String name, int numberOfCommands, Application application) {
     this.name = name;
+    this.numberOfCommands = numberOfCommands;
+    this.application = application;
   }
 
-  public abstract void run() throws IOException;
+  public abstract void run(String[] parsedInput) throws IOException;
 
   public String getName() {
     return name;
+  }
+
+  public int getNumberOfCommands() {
+    return numberOfCommands;
   }
 }

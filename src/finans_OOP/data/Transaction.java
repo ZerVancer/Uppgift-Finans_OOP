@@ -3,19 +3,19 @@ package finans_OOP.data;
 import java.time.LocalDateTime;
 
 public class Transaction {
-  private final LocalDateTime timeStamp;
   private final int amount;
+  private final LocalDateTime timeStamp;
 
   public Transaction(int amount) {
-    this.timeStamp = LocalDateTime.now();
     this.amount = amount;
+    this.timeStamp = LocalDateTime.now();
   }
 
   public Transaction(int amount, LocalDateTime date) {
-    this.timeStamp = date;
     this.amount = amount;
+    this.timeStamp = date;
   }
 
-  public LocalDateTime getTimeStamp() { return timeStamp; }
   public int getAmount() { return amount; }
+  public LocalDateTime getTimeStamp() { return timeStamp; }
 }

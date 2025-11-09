@@ -1,12 +1,19 @@
 package finans_OOP.options;
 
+import finans_OOP.Application;
+import finans_OOP.menus.MainMenu;
+
+import java.io.IOException;
+
 public class IncomeOption extends Option {
-  public IncomeOption() {
-    super("Income");
+  public IncomeOption(Application application) {
+    super("Income", 2, application);
   }
 
   @Override
-  public void run() {
-    IncomeExpensesHelper.run(true);
+  public void run(String[] parsedInput) throws IOException {
+    String period = parsedInput[1];
+    application.getUser().getWallet().setSignifier(1);
+    OverviewHelper.run(period, application);
   }
 }

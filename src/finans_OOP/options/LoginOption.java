@@ -1,29 +1,28 @@
 package finans_OOP.options;
 
 import finans_OOP.Application;
-import finans_OOP.UserData;
+import finans_OOP.data.User;
 import finans_OOP.data.Input;
-import finans_OOP.menu.MainMenu;
+import finans_OOP.menus.LoginMenu;
+import finans_OOP.menus.MainMenu;
 
 import java.io.IOException;
 
 public class LoginOption extends Option{
-  public LoginOption(String name) {
-    super(name);
+  public LoginOption(Application application) {
+    super("Login", 1, application);
   }
 
   @Override
-  public void run() throws IOException {
-    String username;
-    while (true) {
-      username = Input.getString();
-      if (!validUser(username)) continue;
-      break;
+  public void run(String[] parsedInput) throws IOException {
+    String username = Input.getString();
+    if (!validUser(username)) {
+      application.setMenu(new LoginMenu(application));
+      return;
     }
-    UserData.initialiseUser(username);
-    UserData.setWallet(username);
+    application.setUser(new User(username));
 
-    Application.setMenu(new MainMenu());
+    application.setMenu(new MainMenu(application));
   }
 
   boolean validUser(String username) {

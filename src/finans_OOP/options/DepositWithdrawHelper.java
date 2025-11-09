@@ -1,34 +1,29 @@
 package finans_OOP.options;
 
-import finans_OOP.UserData;
-import finans_OOP.data.Input;
+import finans_OOP.Application;
+import finans_OOP.menus.MainMenu;
 
+import java.io.IOException;
 
-public abstract class DepositWithdrawHelper {
-  public static void run(Boolean deposit) {
-    while (true) {
-      System.out.println("Type return to return to the main menu");
-      System.out.println("Amount: ");
-      String input = Input.getString();
-      if (input.equalsIgnoreCase("return")) return;
-      try {
-        int amount = Integer.parseInt(input);
-        if (amount > 0) {
-          if (deposit) {
-            UserData.wallet.createTransaction(amount, 1);
-            System.out.println("Deposited: " + amount);
-          }
-          else {
-            UserData.wallet.createTransaction(amount, -1);
-            System.out.println("Withdrawn " + amount);
-          }
-          break;
-        } else {
-          System.out.println("Must be more than zero, try again");
+public class DepositWithdrawHelper {
+  public static void run(String input, Application application) throws IOException {
+    int signifier = application.getUser().getWallet().getSignifier();
+    try {
+      int amount = Integer.parseInt(input);
+      if (amount > 0) {
+        application.getUser().addTransaction(amount, signifier);
+        if (signifier == 1) {
+          System.out.println("Deposited: " + amount);
         }
-      } catch (NumberFormatException e) {
-        System.out.println("Invalid input, try again.");
+        else {
+          System.out.println("Withdrawn " + amount);
+        }
+      } else {
+        System.out.println("Must be more than zero, try again");
       }
+    } catch (NumberFormatException e) {
+      System.out.println("Invalid input, try again.");
     }
+    application.setMenu(new MainMenu(application));
   }
 }

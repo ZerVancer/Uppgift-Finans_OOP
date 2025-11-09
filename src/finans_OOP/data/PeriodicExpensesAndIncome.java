@@ -1,9 +1,9 @@
 package finans_OOP.data;
 
 public class PeriodicExpensesAndIncome {
-  private int year;
+  private final int year;
   private int period;
-  private int amount;
+  private final int amount;
 
   public PeriodicExpensesAndIncome(int year, int period, int amount) {
     this.year = year;
@@ -16,16 +16,8 @@ public class PeriodicExpensesAndIncome {
     this.amount = amount;
   }
 
-  public void setYear(int year) {
-    this.year = year;
-  }
-
   public void setPeriod(int period) {
     this.period = period;
-  }
-
-  public void setAmount(int amount) {
-    this.amount = amount;
   }
 
   public int getYear() { return year; }

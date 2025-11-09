@@ -1,16 +1,14 @@
 package finans_OOP.options;
 
-import finans_OOP.UserData;
-
-import java.io.IOException;
+import finans_OOP.Application;
 
 public class BalanceOption extends Option {
-  public BalanceOption() {
-    super("Balance");
+  public BalanceOption(Application application) {
+    super("Balance", 1, application);
   }
 
   @Override
-  public void run(){
-    System.out.println("Balance: " + UserData.wallet.getBalance());
+  public void run(String[] parsedInput) {
+    System.out.println("Balance: " + application.getUser().getWallet().getBalance());
   }
 }

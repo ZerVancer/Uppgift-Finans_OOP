@@ -1,8 +1,5 @@
 package finans_OOP.data;
 
-import finans_OOP.Period;
-import finans_OOP.UserData;
-
 import java.time.temporal.TemporalField;
 import java.time.temporal.WeekFields;
 import java.util.ArrayList;
@@ -10,32 +7,23 @@ import java.util.Locale;
 
 public class Wallet {
   private int balance;
-  private final String name;
   private ArrayList<Transaction> transactions = new ArrayList<>();
+  private int signifier = 1;
 
-  public Wallet(String name) {
+  public Wallet() {
     this.balance = 0;
-    this.name = name;
   }
 
-  public Wallet(String name, int balance) {
-    this(name);
+  public Wallet(int balance) {
     this.balance = balance;
-  }
-
-  public void createTransaction(int amount, int signifier) {
-    int result = amount*signifier;
-    addTransaction(new Transaction(result));
-    balance += result;
   }
 
   public void addTransaction(Transaction transaction) {
     transactions.add(transaction);
-    UserData.addTransaction(transaction, name);
   }
 
   // Very convoluted
-  public ArrayList<PeriodicExpensesAndIncome> getIncomeOrExpenses(Period period, boolean positive) {
+  public ArrayList<PeriodicExpensesAndIncome> getIncomeOrExpenses(Period period) {
     ArrayList<PeriodicExpensesAndIncome> result = new ArrayList<>();
     if (transactions.isEmpty()) return result;
     PeriodicExpensesAndIncome pei;
@@ -46,12 +34,12 @@ public class Wallet {
     for (Transaction transaction : getTransactions()) {
       int amount = transaction.getAmount();
       year = transaction.getTimeStamp().getYear();
-      if (amount > 0 && positive || amount < 0 && !positive) {
+      if (amount*signifier > 0) {
         if (getTransactionPeriod(transaction, period) == time && transaction.getTimeStamp().getYear() == year) {
           total += transaction.getAmount();
         } else {
           pei = new PeriodicExpensesAndIncome(year, total);
-          if (period != Period.YEARLY) {
+          if (period != Period.YEAR) {
             pei.setPeriod(time);
           }
           result.add(pei);
@@ -61,7 +49,7 @@ public class Wallet {
       }
     }
     pei = new PeriodicExpensesAndIncome(year, total);
-    if (period != Period.YEARLY) {
+    if (period != Period.YEAR) {
       pei.setPeriod(time);
     }
     result.add(pei);
@@ -70,21 +58,25 @@ public class Wallet {
 
   private int getTransactionPeriod(Transaction transaction, Period period) {
     return switch (period) {
-      case YEARLY -> transaction.getTimeStamp().getYear();
-      case MONTHLY -> transaction.getTimeStamp().getMonthValue();
-      case WEEKLY -> {
+      case YEAR -> transaction.getTimeStamp().getYear();
+      case MONTH -> transaction.getTimeStamp().getMonthValue();
+      case WEEK -> {
         TemporalField woy = WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear();
         yield transaction.getTimeStamp().get(woy);
       }
-      case DAILY -> transaction.getTimeStamp().getDayOfYear();
+      case DAY -> transaction.getTimeStamp().getDayOfYear();
     };
   }
 
+  public void addToBalance(int amount) {
+    balance += amount;
+  }
   public void setTransactions(ArrayList<Transaction> transactions) {
     this.transactions = transactions;
   }
+  public void setSignifier(int signifier) { this.signifier = signifier; }
 
   public int getBalance() { return balance; }
-  public String getName() { return name; }
   public ArrayList<Transaction> getTransactions() { return new ArrayList<>(transactions); }
+  public int getSignifier() { return signifier; }
 }

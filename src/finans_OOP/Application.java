@@ -1,29 +1,43 @@
 package finans_OOP;
 
-import finans_OOP.menu.LoginMenu;
-import finans_OOP.menu.Menu;
+import finans_OOP.data.Input;
+import finans_OOP.data.User;
+import finans_OOP.menus.LoginMenu;
+import finans_OOP.menus.Menu;
 
 import java.io.IOException;
 
 public class Application {
 
-  private static boolean running = true;
-  private static Menu menu;
+  private boolean running = true;
+  private Menu menu;
+  private User user;
 
-  public static void main(String[] args) throws IOException {
+  public void main(String[] args) throws IOException {
+    Application application = new Application();
 
-    menu = new LoginMenu();
+    application.setMenu(new LoginMenu(application));
 
-    while (running) {
-      menu.write();
+    while (application.running) {
+      String input = Input.getString();
+      application.menu.runOption(input);
     }
   }
 
-  public static void setMenu(Menu newMenu) {
-    menu = newMenu;
+  public void setMenu(Menu menu) throws IOException {
+    this.menu = menu;
+    this.menu.write();
   }
 
-  public static void stopRunning() {
+  public void stopRunning() {
     running = false;
+  }
+
+  public void setUser(User user) {
+    this.user = user;
+  }
+
+  public User getUser() {
+    return user;
   }
 }

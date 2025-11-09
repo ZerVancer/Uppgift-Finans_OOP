@@ -1,14 +1,17 @@
 package finans_OOP.options;
 
+import finans_OOP.Application;
+
 import java.io.IOException;
 
 public class DepositOption extends Option {
-  public DepositOption() {
-    super("Deposit");
-  }
+  public DepositOption(Application application) { super("Deposit" , 2, application); }
 
   @Override
-  public void run(){
-    DepositWithdrawHelper.run(true);
+  public void run(String[] parsedInput) throws IOException {
+    String amount = parsedInput[1];
+
+    application.getUser().getWallet().setSignifier(1);
+    DepositWithdrawHelper.run(amount, application);
   }
 }
